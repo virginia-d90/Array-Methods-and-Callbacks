@@ -20,7 +20,6 @@ console.log(fifaData);
 console.log(fifaData[fifaData.length-1]["Home Team Goals"]);
 console.log(fifaData[fifaData.length-1]["Away Team Goals"]);
 console.log(fifaData[fifaData.length-1]["Home Team Goals"]);*/
-
 fifaData.forEach(match => {
     if(match["Year"] === 2014){
         if (match["Stage"] === "Final"){
@@ -50,11 +49,11 @@ console.log(getFinals(fifaData));
 
 /* Task 3: Impliment a higher-order function called `getYears` that accepts the callback function `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
-function getYears(data) {
-   return data.filter(match => {
-       return match["Year"];
-   });
-    
+function getYears(callback) {
+    let years = callback.map(function(final){
+        return final["Year"]
+    })
+    return years;
 
 };
 
@@ -62,13 +61,19 @@ console.log(getYears(getFinals(fifaData)));
 
 /* Task 5: Impliment a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
-function getWinners(data) {
-    if()
-    /* code here */
+function getWinners(callback) {
+    let winners = callback.map(function(final){
+        if(final["Home Team Goals"] > final["Away Team Goals"]){
+            return final["Home Team Goals"]
+        }else{
+            return final["Away Team Goals"]
+        }
+    })
+    return winners
+}
+   
 
-};
-
-getWinners(getFinals(fifaData));
+console.log(getWinners(getFinals(fifaData)));
 
 /* Task 6: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
@@ -77,11 +82,11 @@ Parameters:
  * callback function getYears
  */
 
-function getAllWinners(/* code here */) {
+function getWinnersByYear(/* code here */) {
 
 };
 
-getAllWinners();
+getWinnersByYear();
 
 /* Task 7: Create a function called `getCountryWins` that takes the parameters `data` and `team initials` and returns the number of world cup wins that country has had. 
 
@@ -132,4 +137,4 @@ getAverageGoals();
 
 /// STRETCH 🥅 //
 
-/* Use the space below to work on any stretch goals of your chosing as listed in the README file. */
+/*Use the space below to work on any stretch goals of your chosing as listed in the README file.*/
