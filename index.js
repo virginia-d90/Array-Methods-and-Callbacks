@@ -64,9 +64,9 @@ console.log(getYears(getFinals(fifaData)));
 function getWinners(callback) {
     let winners = callback.map(function(final){
         if(final["Home Team Goals"] > final["Away Team Goals"]){
-            return final["Home Team Goals"]
+            return final["Home Team Name"]
         }else{
-            return final["Away Team Goals"]
+            return final["Away Team Name"]
         }
     })
     return winners
@@ -82,24 +82,38 @@ Parameters:
  * callback function getYears
  */
 
-function getWinnersByYear(/* code here */) {
-
+function getWinnersByYear(winners, years) {
+    for(let i=0; i<winners.length; i++){
+        console.log(`In ${years[i]}, ${winners[i]} won the World Cup`)
+    }
 };
 
-getWinnersByYear();
+getWinnersByYear(getWinners(getFinals(fifaData)), getYears(getFinals(fifaData)));
 
 /* Task 7: Create a function called `getCountryWins` that takes the parameters `data` and `team initials` and returns the number of world cup wins that country has had. 
 
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
-
-    /* code here */
+function getCountryWins(data, teamInitials) {
+    let count = 0
+    let teamMatches = data.map(function(match){
+        if(match["Home Team Goals"] > match["Away Team Goals"]){  
+            return match["Home Team Initials"]
+        }else{
+            return match["Away Team Initials"]
+        }
+    })
+    teamMatches.forEach(function(item){
+        if(item === teamInitials){
+            count++
+        }
+    })
+    return `${teamInitials} has won ${count} games`
 
 };
 
-getCountryWins();
+console.log(getCountryWins(fifaData, "GHA"));
 
 
 /* Task 8: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
@@ -126,13 +140,27 @@ badDefense();
 
 /* Task 10: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
-function getAverageGoals(/* code here */) {
+function getAverageGoals(data) {
+    let homeTeamGoals = data.map(function(item){
+        return item["Home Team Goals"]
+    })
+    let awayTeamGoals = data.map(function(item){
+        return item["Away Team Goals"]
+    })
 
-    /* code here */
+    let avgHomeGoals = homeTeamGoals.reduce(function(accumulator, currentValue){
+        return accumulator + currentValue
+    }, 0) / homeTeamGoals.length
+
+    let avgAwayGoals = awayTeamGoals.reduce(function(accumulator, currentValue){
+        return accumulator + currentValue
+    }, 0) / awayTeamGoals.length
+
+    console.log(`Home Team Average: ${avgHomeGoals.toFixed(2)}, Away Team Average: ${avgAwayGoals.toFixed(2)}`)
 
 };
 
-getAverageGoals();
+getAverageGoals(fifaData);
 
 
 /// STRETCH 🥅 //
